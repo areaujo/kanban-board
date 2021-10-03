@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  kanbanAppUrl: '/api'
+  kanbanAppUrl: process.env.API_URL
+  //kanbanAppUrl: '/api'
 };

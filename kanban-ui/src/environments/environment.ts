@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  kanbanAppUrl: "${API_URL}"
+  kanbanAppUrl: process.env.API_URL
   //kanbanAppUrl: 'http://localhost:8080'
 };
 

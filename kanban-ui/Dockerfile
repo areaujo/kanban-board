@@ -1,14 +1,48 @@
+#----------------------------------------------------------------------------
+#Stage 1: Capa de gestor de dependencias
+#----------------------------------------------------------------------------
 ### STAGE 1: Build ###
+
+# Obtención de imagen node para construir la aplicación y manejar sus dependencias
 FROM node:12.7-alpine AS build
+
+# Establecimiento de carpeta de trabajo para la aplicación
 WORKDIR /usr/src/app
+
+# Copia del packege json donde se definen las dependencias de librerías
 COPY package.json ./
+
+# Variable de ambiente definida para la url del proyecto backend
+ENV API_URL="http://localhost:8080"
+
+# Comando para instalar las dependencias de librerías necesarias para el proyecto angular
 RUN npm install
+
+# Copia de los archivos del proyecto front-end al workdir
 COPY . .
+
+# Ejecución del comando build para el compilado del proyecto generando así la
+# carpeta dist con los archivos compilados
 RUN npm run build
 
-### STAGE 2: Run ###
+#----------------------------------------------------------------------------
+#Stage 1: Capa de aplicación
+#----------------------------------------------------------------------------
+
+# Obtención de imagen nginx para ejecución de la aplicación
 FROM nginx:1.17.1-alpine
+
+# Copiado del archivo de configuración del nginx para ubicación de la aplicación
 COPY default.conf /etc/nginx/conf.d/default.conf
+
+# Copiado de artefacto construido por npm build en el stage "build" en su carpeta de trabajo
+# para copiarlo en la capa aplicación con el nombre kanban-ui
 COPY --from=build /usr/src/app/dist/kanban-ui /usr/share/nginx/html
-ENV API_URL = http://localhost:8080
+
+# Añadir metadados de la aplicación
+LABEL maintainer="pabloaraujo@outlook.com" \
+    description="Aplicacion front-end | Grupo 9 Modulo Contenedores" \
+    version="1.0"
+
+# Exposición de puerto externo para el contenedor de la aplicación
 EXPOSE 80

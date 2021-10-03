@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  kanbanAppUrl: '/api'
+  kanbanAppUrl: '${API_URL_PROD}'
 };

@@ -2,7 +2,8 @@
 #Stage 0: Capa de gestor de dependencias
 #----------------------------------------------------------------------------
 
-#Obtención de imagen maven 3.6.1 para construir la aplicación y manejar sus dependencias
+#Obtención de imagen maven 3.6.1 para construir la aplicación y manejar sus dependencias,
+#tiene como nombre build
 FROM maven:3.6.1-jdk-8-slim AS build
 
 #Ejecución de comando para crear una carpeta para la carpeta de trabajo de la aplicación
@@ -22,7 +23,7 @@ COPY src /workspace/src
 RUN mvn -f pom.xml clean package
 
 #----------------------------------------------------------------------------
-#Stage 1: Capa de aplicación
+#Stage 1: Capa de aplicación back-end
 #----------------------------------------------------------------------------
 
 #Obtención de imagen openjdk 8 para ejecución de la aplicación
@@ -38,10 +39,10 @@ LABEL maintainer="tavo15g@gmail.com" \
     version="1.0"
 
 #Configuración de variables de entorno para base de datos
-ENV DB_SERVER="kanban-postgres"
-ENV POSTGRES_DB="kanban"
-ENV POSTGRES_USER="kanban"
-ENV POSTGRES_PASSWORD="kanban"
+ENV DB_SERVER="kanban-postgres" \
+    POSTGRES_DB="kanban" \
+    POSTGRES_USER="kanban" \
+    POSTGRES_PASSWORD="kanban"
 
 #Exposición de puerto externo para el contenedor de la aplicación
 EXPOSE 8080

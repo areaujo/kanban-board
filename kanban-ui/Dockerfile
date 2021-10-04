@@ -6,6 +6,11 @@
 # Obtención de imagen node para construir la aplicación y manejar sus dependencias
 FROM node:12.7-alpine AS build
 
+#Creacion de volumen para aplicacion frontend
+RUN mkdir /app-data
+WORKDIR /app-data
+VOLUME /app-data
+
 # Establecimiento de carpeta de trabajo para la aplicación
 WORKDIR /usr/src/app
 
@@ -15,9 +20,6 @@ COPY package.json ./
 # Variable de ambiente definida para la url del proyecto backend
 ENV DEV_BACKEND_URL="http://localhost:8080"
 ENV PROD_BACKEND_URL="http://localhost:8080/api"
-
-#Creacion de volumen para aplicacion frontend
-VOLUME [ "/app-data" ]
 
 # Comando para instalar las dependencias de librerías necesarias para el proyecto angular
 RUN npm install

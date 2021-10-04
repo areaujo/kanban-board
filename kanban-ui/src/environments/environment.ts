@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   //kanbanAppUrl: process.env.API_URL
-  kanbanAppUrl: 'http://localhost:8080'
+  //kanbanAppUrl: 'http://localhost:8080'
+  kanbanAppUrl: $ENV.DEV_BACKEND_URL
 };
 
 /*

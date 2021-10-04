@@ -33,7 +33,7 @@ FROM openjdk:8-alpine
 COPY --from=build /workspace/target/*.jar app.jar
 
 #Añadir metadados de la aplicación
-LABEL maintainer="tavo15g@gmail.com" \
+LABEL maintainer="grupo9" \
     description="Aplicacion back-end | Grupo 9 Modulo Contenedores" \
     version="1.0"
 

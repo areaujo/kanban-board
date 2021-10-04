@@ -1,5 +1,5 @@
 #----------------------------------------------------------------------------
-#Stage 1: Capa de gestor de dependencias
+#Stage 0: Capa de gestor de dependencias
 #----------------------------------------------------------------------------
 ### STAGE 1: Build ###
 
@@ -13,7 +13,11 @@ WORKDIR /usr/src/app
 COPY package.json ./
 
 # Variable de ambiente definida para la url del proyecto backend
-ENV API_URL="http://localhost:8080"
+ENV DEV_BACKEND_URL="http://localhost:8080"
+ENV PROD_BACKEND_URL="http://localhost:8080/api"
+
+#Creacion de volumen para aplicacion frontend
+VOLUME [ "/app-data" ]
 
 # Comando para instalar las dependencias de librerías necesarias para el proyecto angular
 RUN npm install
@@ -22,7 +26,7 @@ RUN npm install
 COPY . .
 
 # Ejecución del comando build para el compilado del proyecto generando así la
-# carpeta dist con los archivos compilados
+# carpeta dist con los archivos compilados, es un comando para compilar en prod
 RUN npm run build
 
 #----------------------------------------------------------------------------
@@ -40,7 +44,7 @@ COPY default.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /usr/src/app/dist/kanban-ui /usr/share/nginx/html
 
 # Añadir metadados de la aplicación
-LABEL maintainer="pabloaraujo@outlook.com" \
+LABEL maintainer="grupo9" \
     description="Aplicacion front-end | Grupo 9 Modulo Contenedores" \
     version="1.0"
 

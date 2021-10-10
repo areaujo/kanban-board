@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 services:
 
   kanban-postgres:
@@ -6,21 +6,20 @@ services:
     container_name: kanban-postgres
     volumes:
       - kanban-data:/var/lib/postgresql/data
+      #- ./db:/var/lib/postgresql/data
+      #- database-kan:/var/lib/postgresql/data 
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_DB=kanban
-      - POSTGRES_USER=kanban
-      - POSTGRES_PASSWORD=kanban
+      - POSTGRES_DB:kanban
+      - POSTGRES_USER:kanban
+      - POSTGRES_PASSWORD:kanban
 
   kanban-app:
     build: ./kanban-app
     container_name: kanban-app
     environment:
       - DB_SERVER=kanban-postgres
-      - POSTGRES_DB=kanban
-      - POSTGRES_USER=kanban
-      - POSTGRES_PASSWORD=kanban
     ports:
       - 8080:8080
     links:
@@ -37,3 +36,7 @@ services:
 
 volumes:
   kanban-data:
+  #database-kan:
+   # - type: bind
+    #  source: ./database-data
+     # target: /var/lib/postgresql/data

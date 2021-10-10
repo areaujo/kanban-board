@@ -14,6 +14,11 @@ echo -e "${BLUE_COLOR}Eliminacion de contenedores y volumes anonimos de los mism
 
 docker rm --force --volumes kanban-ui kanban-app kanban-postgres
 
+#Borrado de volumenes creados
+echo -e "${BLUE_COLOR}Eliminacion de volumes${NO_COLOR}"
+
+docker volume rm database-data
+
 #Borrado de redes creadas
 echo -e "${BLUE_COLOR}Eliminacion de networks${NO_COLOR}"
 

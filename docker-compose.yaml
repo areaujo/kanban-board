@@ -2,7 +2,7 @@ version: '3.9'
 services:
 
   kanban-postgres:
-    image: "postgres:9.6-alpine"
+    image: "harbor.tallerdevops.com/grupo9-docker-compose/kanban-postgres@sha256:85bb0250a9f53d0bc6fa192be3fbcb7d691968fb0c9011e2d1c51b80f486ee85"
     container_name: kanban-postgres
     volumes:
     - type: bind

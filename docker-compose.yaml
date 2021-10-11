@@ -1,46 +1,67 @@
 version: '3.9'
 services:
 
+  # Se define las configuraciones para la BD postgres
   kanban-postgres:
+    # Se utiliza la imagen de la BD levantada en harbor
     image: "harbor.tallerdevops.com/grupo9-docker-compose/kanban-postgres@sha256:85bb0250a9f53d0bc6fa192be3fbcb7d691968fb0c9011e2d1c51b80f486ee85"
+    # Se agregar el nombre para la BD
     container_name: kanban-postgres
+    # Se define el volumen para almacenar los datos de la BD
     volumes:
     - type: bind
       source: ./postgres
       target: /var/lib/postgresql/data
+    # Se expone el puerto 5432 en el host para la BD
     ports:
       - 5432:5432
+    # Se definen la variables de ambiente para las credenciales de la BD
     environment:
       - POSTGRES_DB=kanban
       - POSTGRES_USER=kanban
       - POSTGRES_PASSWORD=kanban
+    # Se asigna el contenedor para tener acceso en la red de kanban-net
     networks:
       - kanban-net
 
+  # Se definen las configuraciones para el backend
   kanban-app:
+    # Se indica para hacer el build para la imagen desde dentro de la carpeta kanban-app
     build: ./kanban-app
+    # Se define el nombre del contenedor del backend
     container_name: kanban-app
+    # Se definen las variables de ambientes para la conexión a la BD
     environment:
       - DB_SERVER=kanban-postgres
       - POSTGRES_DB=kanban
       - POSTGRES_USER=kanban
       - POSTGRES_PASSWORD=kanban
+    # Se expone el puerto 8080 en el host para el backend
     ports:
       - 8080:8080
+    # Se define que este contenedor depende del contenedor de la BD
     depends_on:
       - kanban-postgres
+    # Se asigna el contenedor para tener acceso en la red de kanban-net
     networks:
       - kanban-net
 
+  # Se definen las configuraciones para el frontend
   kanban-ui:
+    # Se indica para hacer el build para la imagen desde dentro de la carpeta kanban-ui
     build: ./kanban-ui
+    # Se define el nombre del contenedor del frontend
     container_name: kanban-ui
+    # Se expone el puerto 8080 en el host para el frontend
     ports:
       - 8081:80
+    # Se define que este contenedor depende del contenedor del backend
     depends_on:
       - kanban-app
+    # Se asigna el contenedor para tener acceso en la red de kanban-net
     networks:
       - kanban-net
 
+# Se define la red kanban-net
 networks:
    kanban-net:

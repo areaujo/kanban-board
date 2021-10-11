@@ -4,7 +4,7 @@
 ### STAGE 1: Build ###
 
 # Obtención de imagen node para construir la aplicación y manejar sus dependencias
-FROM node:16-alpine AS build
+FROM node:14.18-alpine AS build
 
 #Creacion de volumen para aplicacion frontend
 RUN mkdir /app-data

@@ -14,6 +14,8 @@ services:
       - POSTGRES_DB=kanban
       - POSTGRES_USER=kanban
       - POSTGRES_PASSWORD=kanban
+    networks:
+      - kanban-net
 
   kanban-app:
     build: ./kanban-app
@@ -25,13 +27,20 @@ services:
       - POSTGRES_PASSWORD=kanban
     ports:
       - 8080:8080
-    links:
+    depends_on:
       - kanban-postgres
+    networks:
+      - kanban-net
 
   kanban-ui:
     build: ./kanban-ui
     container_name: kanban-ui
     ports:
       - 8081:80
-    links:
+    depends_on:
       - kanban-app
+    networks:
+      - kanban-net
+
+networks:
+   kanban-net:
